@@ -5,13 +5,11 @@ from . import views
 
 #URL patterns specific to the quotes app: 
 
-urlpatterns = [ 
-    #path(r'', views.home, name="home"),
-    path('', views.quote_page, name="quote_page"),
-    path('quote/', views.quote_page, name="quote_page"),
-    path(r'about', views.about, name="about_page"),
-    path(r'show_all', views.show_all, name="show_all"),
+urlpatterns = [
+    path("", views.home, name="home"),          
+    path("quote/", views.quote_page, name="quote_page"),
+    path("show_all/", views.show_all, name="show_all"),
+    path("about/", views.about, name="about_page"),
 ]
-
 
 

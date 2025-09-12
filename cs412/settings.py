@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os 
+import socket
+CS_DEPLOYMENT_HOSTNAME = "cs-webapps.bu.edu"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,6 +141,6 @@ MEDIA_URL= "media/"  # note: no leading slash!
 import socket
 CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 
-# if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
-#     STATIC_URL = '/lvu/static/'
-#     MEDIA_URL = '/lvu/media/'
+if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
+   STATIC_URL = '/lvu/static/'
+   MEDIA_URL = '/lvu/media/'
