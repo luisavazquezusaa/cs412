@@ -118,7 +118,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+#STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -139,6 +139,6 @@ MEDIA_URL= "media/"  # note: no leading slash!
 import socket
 CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 
-if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
-    STATIC_URL = '/lvu/static/'
-    MEDIA_URL = '/lvu/media/'
+# if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
+#     STATIC_URL = '/lvu/static/'
+#     MEDIA_URL = '/lvu/media/'
