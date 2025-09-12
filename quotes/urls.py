@@ -7,8 +7,10 @@ from . import views
 
 urlpatterns = [ 
     #path(r'', views.home, name="home"),
-    path(r'', views.home_page, name="home_page"),
-    path(r'about', views.about, name="about"),
+    path('', views.quote_page, name="quote_page"),
+    path('quote/', views.quote_page, name="quote_page"),
+    path(r'about', views.about, name="about_page"),
+    path(r'show_all', views.show_all, name="show_all"),
 ]
 
 

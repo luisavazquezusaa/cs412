@@ -1,17 +1,17 @@
 <!-- quotes/templates/quotes/home.html --> 
-<html>
-    <head>
-        <title>Cardi B Quote Of The Day</title>
-    </head>
-    <body>
-        <h1>Hello, world!</h1>
+{% extends 'quotes/base.html'%}
 
-        <p>
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nihil cumque, fugiat consequuntur delectus, neque eum in, quod laudantium nemo dignissimos reprehenderit non corporis dolorum ipsam itaque sint voluptates praesentium. 
-        </p>
-        <footer>
-            This page was brough to you by {{letter1}}, and by {{number}}.
-        </footer>
+    {% block content %}
+    <h1>All Cardi B Quotes & Images</h1>
 
-    </body>
-</html>
+    <h2>Quotes</h2>
+    {% for q in quotes %}
+    <p>{{ q }}</p>
+    {% endfor %}
+
+    <h2>Images</h2>
+    {% for img in images %}
+    <p><img src="{{ img }}" width="300"></p>
+    {% endfor %}
+{% endblock %}
+
