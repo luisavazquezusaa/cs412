@@ -25,6 +25,5 @@ def healthcheck(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("quotes.urls")),
-    path("lvu/", include("quotes.urls")),
     path("health/", healthcheck), 
 ]   +  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
