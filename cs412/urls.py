@@ -18,12 +18,9 @@ from django.contrib import admin
 from django.urls import path, include 
 from django.conf.urls.static import static
 from django.conf import settings 
-from django.http import HttpResponse
-def healthcheck(request):
-    return HttpResponse("Django is alive!")
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("quotes.urls")),
-    path("health/", healthcheck), 
-]   +  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path("", include("quotes.urls")),   
+] + static (settings.STATIC_URL, document_root=settings.STATIC_ROOT)
