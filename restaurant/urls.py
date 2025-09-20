@@ -9,8 +9,7 @@ from . import views
 #URL patterns specific to the restaurant app: 
 
 urlpatterns = [
-    path(r"", views.main, name="main"),
-    path(r"restaurant/", views.main, name="main"), 
+    path(r"", views.main, name="main"), 
     path(r"order/", views.order_page, name="order_page"),    
     path(r"submit/", views.submit, name="submit"),       
 ]
