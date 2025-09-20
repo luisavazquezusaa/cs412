@@ -1,6 +1,7 @@
 # File: urls.py 
 # Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/19/2025
 # Description: Urls for the app restaurant
+
 from django.urls import path
 from django.conf import settings
 from . import views
