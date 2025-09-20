@@ -11,5 +11,5 @@ from . import views
 urlpatterns = [
     path(r"", views.main, name="main"), 
     path(r"order/", views.order_page, name="order_page"),    
-    path(r"submit/", views.submit, name="submit"),       
+    path(r"submit/", views.submit, name="submit"),     
 ]
