@@ -1,0 +1,35 @@
+<!-- mini_insta /show_all_profiles.html 
+# File: show_all_profiles.html 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
+# Description: Urls for the app mini_insta
+-->
+
+{% extends 'mini_insta/base.html'%}
+
+{% block content %}
+<h1>Showing all Profiles</h1>
+
+<!-- displays a QuerySet of all profiles-->
+<!-- {{profiles}}-->
+
+<main class="grid-container">
+    <!-- scriptlet code for a loop -->
+    {% for profile in profiles %}
+    <article>
+        <div> 
+            <h2>{{profile.username}}</h2>
+            <h3>by {{profile.display_name}}</h3>
+
+            <p>
+                {{profile.bio_text}} <!-- Added this one because I though it looked nicer-->
+            </p>
+        </div>
+
+        <img src="{{profile.profile_image_url}}" alt=""> 
+
+    </article> 
+    <hr>
+    {% endfor %}
+</main>
+
+{% endblock %} 

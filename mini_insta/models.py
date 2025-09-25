@@ -2,21 +2,21 @@ from django.db import models
 
 # Create your models here.
 
-class Article(models.Model): 
-    ''' '''
+# class Article(models.Model): 
+#     ''' '''
 
-    # Define the data atributes
+#     # Define the data atributes
 
-    title = models.TextField(blank = True)
-    author = models.TextField(blank = True)
-    text = models.TextField(blank = True)
-    published = models.DateTimeField(auto_now = True) 
-    image_ulr = models.URLField(blank = True)
+#     title = models.TextField(blank = True)
+#     author = models.TextField(blank = True)
+#     text = models.TextField(blank = True)
+#     published = models.DateTimeField(auto_now = True) 
+#     image_ulr = models.URLField(blank = True)
 
 
-    def __str__(self): 
-        '''return a string representation of the model isntance.'''
-        return f'{self.title} by {self.author}'
+#     def __str__(self): 
+#         '''return a string representation of the model isntance.'''
+#         return f'{self.title} by {self.author}'
     
 
 class Profile(models.Model): 
