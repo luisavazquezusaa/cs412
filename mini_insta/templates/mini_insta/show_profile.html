@@ -1,0 +1,31 @@
+<!-- mini_insta /show_profiles.html 
+# File: show_profiles.html 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
+# Description: indiviual profile for the app mini_insta
+-->
+
+{% extends 'mini_insta/base.html'%}
+
+{% block content %}
+
+<!-- displays a QuerySet of all profiles-->
+<!-- {{profiles}}-->
+
+<main class="grid-container">
+    <article>
+        <div> 
+            <h1>{{profile.username}}</h1>
+            <h3>by {{profile.display_name}}</h3>
+            <h3> Joined {{profile.join_date}} </h3>
+
+            <p>
+                {{profile.bio_text}} <!-- Added this one because I though it looked nicer-->
+            </p>
+        </div>
+
+        <img src="{{profile.profile_image_url}}" alt=""> 
+
+    </article> 
+</main>
+
+{% endblock %} 

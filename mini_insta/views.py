@@ -1,3 +1,8 @@
+
+# File: views.py
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
+# Description: this file is my views for mini insta, assigment 3
+
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 # from .models import Article --> from example
@@ -11,6 +16,22 @@ class ProfileListView(ListView):
     model = Profile
     template_name = "mini_insta/show_all_profiles.html"
     context_object_name = "profiles"
+
+class ProfileDetailView(DetailView):
+    '''Display a single profile'''
+
+    model = Profile
+    template_name = "mini_insta/show_profile.html"
+    context_object_name = "profile"
+
+    # method
+
+    # def get_object(self):
+    #     '''return one instance of the article object selected at random'''
+
+    #     all_articles = Article.objects.all()
+    #     article = random.choice(all_articles)
+    #     return article 
 
 
 

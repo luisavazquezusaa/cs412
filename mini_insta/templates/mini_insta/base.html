@@ -1,4 +1,8 @@
-<!-- mini_insta/base.html-->
+<!-- mini_insta /base.html 
+# File: base.html 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
+# Description: base for the app mini_insta
+-->
 {% load static%}
 
 <html> 
@@ -10,10 +14,22 @@
     <body>
         <head>
             <h1>Insta</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
+                    <!-- I put the navegation link on top as it makes more sense, and on the footer per the instrucitons.-->
+                </ul>
+            </nav>
         </head>
 
         {% block content%}
         {% endblock%}
     </body>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
+        </ul>
+    </nav>
 
 </html>

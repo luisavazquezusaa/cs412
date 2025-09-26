@@ -20,12 +20,15 @@
             <h2>{{profile.username}}</h2>
             <h3>by {{profile.display_name}}</h3>
 
-            <p>
-                {{profile.bio_text}} <!-- Added this one because I though it looked nicer-->
-            </p>
+            <!-- <p>
+                {{profile.bio_text}} 
+            </p> -->
         </div>
-
+        
+        <!-- Code to link profile to image when clicked -->
+        <a href = "{% url 'profile' profile.pk %}">
         <img src="{{profile.profile_image_url}}" alt=""> 
+        </a>
 
     </article> 
     <hr>
