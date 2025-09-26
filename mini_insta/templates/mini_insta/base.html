@@ -14,22 +14,9 @@
     <body>
         <head>
             <h1>Insta</h1>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
-                    <!-- I put the navegation link on top as it makes more sense, and on the footer per the instrucitons.-->
-                </ul>
-            </nav>
         </head>
 
         {% block content%}
         {% endblock%}
     </body>
-
-    <nav>
-        <ul>
-            <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
-        </ul>
-    </nav>
-
 </html>

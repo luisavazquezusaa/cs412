@@ -12,7 +12,8 @@
 <!-- {{profiles}}-->
 
 <main class="grid-container">
-    <article>
+    <!-- created a new class so that my user interface looked cute -->
+    <article class="profile-detail"> 
         <div> 
             <h1>{{profile.username}}</h1>
             <h3>by {{profile.display_name}}</h3>
@@ -25,7 +26,13 @@
 
         <img src="{{profile.profile_image_url}}" alt=""> 
 
-    </article> 
+    </article>
 </main>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
+        </ul>
+    </nav>
 
 {% endblock %} 

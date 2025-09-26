@@ -7,7 +7,14 @@
 {% extends 'mini_insta/base.html'%}
 
 {% block content %}
-<h1>Showing all Profiles</h1>
+<h1>Profiles</h1>
+
+<nav>
+    <ul>
+        <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
+        <!-- I put the navegation link on top as it makes more sense, and on the footer per the instrucitons.-->
+    </ul>
+</nav>
 
 <!-- displays a QuerySet of all profiles-->
 <!-- {{profiles}}-->
@@ -31,7 +38,6 @@
         </a>
 
     </article> 
-    <hr>
     {% endfor %}
 </main>
 
