@@ -4,13 +4,21 @@
 
 from django.urls import path
 # from .views import ShowAllView, RandomArticleView, ArticleView, --> from example
-from .views import ProfileListView, ProfileDetailView
+from .views import * 
 
 urlpatterns = [
 
     path('', ProfileListView.as_view(), name="show_all_profiles"),
     path('show_all_profiles/', ProfileListView.as_view(), name="show_all_profiles"),
-    path('profile/<int:pk>', ProfileDetailView.as_view(), name='profile')
+    path('profile/<int:pk>', ProfileDetailView.as_view(), name='profile'),
+    #path('profile/<int:pk>/create_comment', ProfileDetailView.as_view(), name='profile'),
+    path('post/<int:pk>', PostDetailView.as_view(), name='post'),
+
+
+
+    #examples assigment 4: 
+    # path('profile/create', CreateArticleView.as_view(), name="create_article"),
+    # path('create_comment', CreateCommentView.as_view(), name="create_comment"),
 
     #from example: 
     # path('', RandomArticleView.as_view(), name="random"),

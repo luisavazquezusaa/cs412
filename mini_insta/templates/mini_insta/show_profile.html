@@ -5,11 +5,10 @@
 -->
 
 {% extends 'mini_insta/base.html'%}
+{% load static %}
 
 {% block content %}
 
-<!-- displays a QuerySet of all profiles-->
-<!-- {{profiles}}-->
 
 <main class="grid-container">
     <!-- created a new class so that my user interface looked cute -->
@@ -25,8 +24,48 @@
         </div>
 
         <img src="{{profile.profile_image_url}}" alt=""> 
-
     </article>
+<!-- From the examples A 4 
+         Display the comments abbout this article 
+        {% for comment in profile.get_all_comments %}
+            <div>
+                <strong>by {{comment.username}} at {{comment.published}}</strong>
+                <p>
+                    {{comment.text}}
+                </p>
+            </div>
+        {% endfor %} -->
+    
+       <!--Display the posts about this profile--> 
+        {% for post in profile.get_all_posts %}
+
+            <h4>{{ post.caption }}</h4>
+
+            {% if post.get_all_photos %}
+                <div>
+                    <!-- Show all photos for this post -->
+                    {% for photo in post.get_all_photos %}
+
+                        <!-- Code to link post to image when clicked, + show images associate with post -->
+                        <a href = "{% url 'post' post.pk %}">
+                            <img src="{{photo.image_url}}" alt=""> 
+                        </a>
+                        <p><em>Posted at {{ post.timestamp }}</em></p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div>
+                    <!-- if  no photos available, show No Image -->
+                    <a href="{% url 'post' post.pk %}">
+                        <img src="{% static 'images/no_image.png' %}" alt="No image available">
+                    </a> 
+                    <p><em>Posted at {{ post.timestamp }}</em></p>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+
+
 </main>
 
     <nav>

@@ -1,0 +1,45 @@
+<!-- mini_insta /show_post.html 
+# File: show_post.html 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/30/2025
+# Description: indiviual post for the app mini_insta
+-->
+
+{% extends 'mini_insta/base.html' %}
+{% load static %}
+
+{% block content%} 
+
+<nav>
+    <ul>
+        <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
+    </ul>
+</nav>
+
+<main> 
+    <h1>{{ post.caption }}</h1> 
+    <h3>Posted on {{ post.timestamp }}</h3>
+
+    {% if post.get_all_photos %}
+        <div>
+            <!-- Show all photos for this post -->
+            {% for photo in post.get_all_photos %}
+                <img src="{{ photo.image_url }}" alt="Post image">
+                <p><em>Posted at {{ post.timestamp }}</em></p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div>
+            <!-- if no photos available, show No Image -->
+            <img src="{% static 'images/no_image.png' %}" alt="No image available">
+            <p><em>Posted at {{ post.timestamp }}</em></p>
+        </div>
+    {% endif %}
+</main>
+
+<nav>
+    <ul>
+        <li><a href="{% url 'profile' post.profile.pk %}">Back to Profile</a></li>
+    </ul>
+</nav>
+
+{% endblock %}
