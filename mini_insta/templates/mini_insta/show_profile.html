@@ -10,9 +10,9 @@
 {% block content %}
 
 
-<main class="grid-container">
+<main class="profile-page">
     <!-- created a new class so that my user interface looked cute -->
-    <article class="profile-detail"> 
+    <section class="profile-header"> 
         <div> 
             <h1>{{profile.username}}</h1>
             <h3>by {{profile.display_name}}</h3>
@@ -23,8 +23,8 @@
             </p>
         </div>
 
-        <img src="{{profile.profile_image_url}}" alt=""> 
-    </article>
+        <img src="{{ profile.profile_image_url }}" alt="Profile image" class="profile-pic">
+    </section>
 <!-- From the examples A 4 
          Display the comments abbout this article 
         {% for comment in profile.get_all_comments %}
@@ -36,42 +36,38 @@
             </div>
         {% endfor %} -->
     
-       <!--Display the posts about this profile--> 
+    <section class="grid-container posts-grid">
+    <!-- Display the posts about this profile --> 
         {% for post in profile.get_all_posts %}
 
             <h4>{{ post.caption }}</h4>
 
-            {% if post.get_all_photos %}
-                <div>
-                    <!-- Show all photos for this post -->
-                    {% for photo in post.get_all_photos %}
-
-                        <!-- Code to link post to image when clicked, + show images associate with post -->
-                        <a href = "{% url 'post' post.pk %}">
-                            <img src="{{photo.image_url}}" alt=""> 
-                        </a>
-                        <p><em>Posted at {{ post.timestamp }}</em></p>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div>
-                    <!-- if  no photos available, show No Image -->
+            <article class="post-card">
+                {% if post.get_all_photos %}
+                    <!-- Show only the first photo -->
+                    <a href="{% url 'post' post.pk %}">
+                        <img src="{{ post.get_all_photos.0.image_url }}" alt="Post image">
+                    </a>
+                    <p><em>Posted at {{ post.timestamp }}</em></p>
+                {% else %}
+                    <!-- If no photo, show placeholder -->
                     <a href="{% url 'post' post.pk %}">
                         <img src="{% static 'images/no_image.png' %}" alt="No image available">
-                    </a> 
+                    </a>
                     <p><em>Posted at {{ post.timestamp }}</em></p>
-                </div>
-            {% endif %}
-
+            </article>
+                {% endif %}
+            
         {% endfor %}
+
+    </section>
+</main>
+  
+
+
 
 
 </main>
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
-        </ul>
-    </nav>
 
 {% endblock %} 

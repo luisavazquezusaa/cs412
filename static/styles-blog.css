@@ -136,3 +136,73 @@ article.profile-detail img {
     margin: 0;              
     display: block;
 }
+
+/* added this for my posts for assignemnt 4 */
+/* Profile page header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 20px auto 40px;
+    max-width: 1000px;
+}
+
+.profile-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.profile-info h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+.profile-info p {
+    margin: 5px 0;
+}
+
+/* Posts grid uses your existing grid-container */
+.posts-grid {
+    margin-top: 20px;
+}
+
+/* Individual post card */
+.post-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;   /* ensures image stays inside */
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.post-card img {
+    width: 100%;         /* fill the card width */
+    max-width: 350px;    /* but don’t go larger than this */
+    max-height: 250px;   /* cap height */
+    object-fit: contain; /* keep the full image inside */
+    display: block;
+    margin: 0 auto;      /* center */
+}
+
+
+.post-card h2 {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.post-card .timestamp {
+    font-size: 0.8rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+}

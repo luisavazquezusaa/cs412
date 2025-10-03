@@ -1,7 +1,18 @@
 
 
 from django import forms
-from .models import Profile, Post, Photo
+from .models import *
+
+class CreatePostForm(forms.ModelForm): 
+        '''A form to add a comment about an article'''
+
+        image_url = forms.URLField(required=False, label="Image URL")
+
+        class Meta: 
+                '''associate this form with a model from our database'''
+                model = Post
+                #fields = ['profile', 'username', 'bio_text'] #deleated
+                fields = ['caption', 'image_url'] #we dont want the drop down list
 
 
 #Examples Assignment 4:

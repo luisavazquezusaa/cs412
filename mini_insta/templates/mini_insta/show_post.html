@@ -9,37 +9,24 @@
 
 {% block content%} 
 
-<nav>
-    <ul>
-        <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
-    </ul>
-</nav>
-
 <main> 
     <h1>{{ post.caption }}</h1> 
-    <h3>Posted on {{ post.timestamp }}</h3>
 
     {% if post.get_all_photos %}
         <div>
             <!-- Show all photos for this post -->
             {% for photo in post.get_all_photos %}
                 <img src="{{ photo.image_url }}" alt="Post image">
-                <p><em>Posted at {{ post.timestamp }}</em></p>
+                
             {% endfor %}
         </div>
     {% else %}
         <div>
             <!-- if no photos available, show No Image -->
             <img src="{% static 'images/no_image.png' %}" alt="No image available">
-            <p><em>Posted at {{ post.timestamp }}</em></p>
         </div>
     {% endif %}
+    <h3>Posted on {{ post.timestamp }}</h3>
 </main>
-
-<nav>
-    <ul>
-        <li><a href="{% url 'profile' post.profile.pk %}">Back to Profile</a></li>
-    </ul>
-</nav>
 
 {% endblock %}

@@ -4,11 +4,11 @@
 # Description: this file is my views for mini insta 
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView #CreateView
+from django.views.generic import ListView, DetailView, CreateView
 # from .models import Article --> from example
 from .models import Profile, Post, Photo
 import random
-# from .forms import CreateArticleForm, CreateCommentForm    from example Assignment 4
+from .forms import *      #CreateArticleForm, CreateCommentForm    from example Assignment 4
 from django.urls import reverse
 
 
@@ -33,6 +33,56 @@ class PostDetailView(DetailView):
     model = Post 
     template_name = "mini_insta/show_post.html"
     context_object_name = "post" #Note singular variable name
+
+
+class CreatePostView(CreateView):
+    '''A view to handle creation of a new Post on a Profile'''
+
+    form_class = CreatePostForm
+    template_name = "mini_insta/create_post_form.html"
+
+    def get_success_url(self):
+        '''Provide a URL to redirect to after creating a new Post'''
+        # retrieve PK from the URL pattern
+        pk = self.kwargs['pk']
+        """After creating, go to the new Post detail page"""
+        return reverse('post', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        # calling the superclass method
+        context = super().get_context_data(**kwargs)
+
+        # retrieve the PK from the URL pattern
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+
+        # add this profile into the context dictionary
+        context['profile'] = profile
+        return context
+
+    def form_valid(self, form):
+        '''Handle form submission and save the new Post & Photo'''
+        # retrieve PK from the URL pattern
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+
+        # attach this Profile to the Post
+        form.instance.profile = profile
+
+        # delegate the saving of Post to the superclass
+        response = super().form_valid(form)
+
+        # if the user entered a Photo URL, create a Photo object
+        image_url = form.cleaned_data.get('image_url')
+        if image_url:
+            Photo.objects.create(post=self.object, image_url=image_url)
+
+        return response
+  
+
+
+
 
 
 
