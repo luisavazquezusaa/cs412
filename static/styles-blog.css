@@ -148,12 +148,12 @@ article.profile-detail img {
 }
 
 .profile-pic {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 200px;        /* or auto */
+    height: auto;        /* keep proportions */
+    object-fit: contain; /* don’t crop */
+    border-radius: 0;    /* remove the circle */
     border: 4px solid #fff;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    display: block;
 }
 
 .profile-info h1 {

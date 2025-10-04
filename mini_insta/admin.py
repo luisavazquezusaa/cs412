@@ -1,3 +1,7 @@
+# File: admin.py
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 10/02/2025
+# Description: this file is my admin for mini insta 
+
 from django.contrib import admin
 
 # Register your models here.

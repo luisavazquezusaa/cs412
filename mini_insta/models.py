@@ -1,7 +1,7 @@
 
 # File: models.py
 # Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
-# Description: this file is my models for mini insta, assigment 3
+# Description: this file is my models for mini insta, assigment 4
 
 from django.db import models
 from django.urls import reverse

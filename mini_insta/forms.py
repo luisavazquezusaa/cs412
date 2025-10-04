@@ -1,4 +1,6 @@
-
+# File: forms.py 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/02/2025
+# Description: forms file for the app mini_insta
 
 from django import forms
 from .models import *

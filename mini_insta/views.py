@@ -50,10 +50,7 @@ class CreatePostView(CreateView):
 
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
-        # calling the superclass method
         context = super().get_context_data(**kwargs)
-
-        # retrieve the PK from the URL pattern
         pk = self.kwargs['pk']
         profile = Profile.objects.get(pk=pk)
 
