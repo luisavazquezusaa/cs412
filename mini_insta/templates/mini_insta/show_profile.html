@@ -25,6 +25,13 @@
         </div>
 
         <img src="{{ profile.profile_image_url }}" alt="Profile image" class="profile-pic">
+
+        <div>
+            <a href="{% url 'update_profile' profile.pk %}">
+                <button type="button">Update Profile</button>
+            </a>
+        </div>
+
     </section>
 <!-- From the examples A 4 
          Display the comments abbout this article 
@@ -38,6 +45,8 @@
         {% endfor %} -->
     
     <section class="grid-container posts-grid">
+
+
     <!-- Display the posts about this profile --> 
         {% for post in profile.get_all_posts %}
 

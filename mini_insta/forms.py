@@ -13,12 +13,19 @@ class CreatePostForm(forms.ModelForm):
                 model = Post
                 fields = ['caption'] #we dont want the drop down list
 
-# class UpdatePostForm(forms.ModelForm):
-#         '''A form to handle or update a post'''
-#         class Meta:
-#                 '''associate this form with the Post model.'''
-#                 model = Post
-#                 fields = ['caption', 'image_url', 'image_file']  # which fields from model should we use
+class UpdateProfileForm(forms.ModelForm):
+        '''A form to handle or update a profile'''
+        class Meta:
+                '''associate this form with the Post model.'''
+                model = Profile
+                fields = ['display_name', 'bio_text', 'profile_image_url']  # which fields from model should we use
+
+class UpdatePostForm(forms.ModelForm):
+    '''A form to update the caption of an existing Post.'''
+
+    class Meta:
+        model = Post
+        fields = ['caption']
 
 
 

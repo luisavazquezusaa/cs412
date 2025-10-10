@@ -12,6 +12,15 @@
 <main> 
     <h1>{{ post.caption }}</h1> 
 
+    <!-- Delete/Update Post Link -->
+    <a href="{% url 'delete_post' post.pk %}">
+        <img src="{% static 'images/delete_icon.png' %}" alt="Delete Post" width="200">
+    </a>
+
+    <a href="{% url 'update_post' post.pk %}">
+        <img src="{% static 'images/update_icon.png' %}" alt="Update Post" width="200">
+    </a>
+
         <div>
             <!-- Show all photos for this post -->
             {% for photo in post.get_all_photos %}

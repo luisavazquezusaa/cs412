@@ -4,7 +4,7 @@
 # Description: this file is my views for mini insta 
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView #UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # from .models import Article --> from example
 from .models import Profile, Post, Photo
 import random
@@ -82,33 +82,42 @@ class CreatePostView(CreateView):
 
         return response
     
-# class UpdatePostView (UpdateView):
-#     ''' A view to update an Post and save it to the database. '''
+class UpdateProfileView (UpdateView):
+    ''' A view to update an Post and save it to the database. '''
 
-#     model = Post
-#     form_class = UpdatePostForm 
-#     template_name = "mini_insta/update_post_form.html"
+    model = Profile
+    form_class = UpdateProfileForm 
+    template_name = "mini_insta/update_profile_form.html"
 
-# class DeletePostView (DeleteView):
-#     '''View class to delet a post in a Profile'''
+class UpdatePostView(UpdateView):
+    '''A view to update an existing Post'''
+    model = Post
+    form_class = CreatePostForm
+    template_name = "mini_insta/update_post_form.html"
 
-#     model = Post
-#     template_name = "mini_insta/delete_post_form.html"
+    def get_success_url(self):
+        return reverse("post", kwargs={"pk": self.object.pk})
 
-#     def get_success_url(self):
-#         '''Return URL to direct to after a succesful delete '''
+class DeletePostView (DeleteView):
+    '''A view class to delet a post in a Profile'''
 
-#         #find the pk for this post  
-#         pk = self.kwargs['pk']
+    model = Post
+    template_name = "mini_insta/delete_post_form.html"
+    context_object_name = "post"
 
-#         #find the POst object: 
-#         post = Post.objects.get(pk=pk)
-       
-#         #find the PK of the Profile to which this Post is associated:
-#         profile = post.profile
+    def get_context_data(self, **kwargs):
+        """Provide context data for the delete confirmation template"""
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        context["post"] = post
+        context["profile"] = post.profile
+        return context
 
-#         #return the URL to redirect to: 
-#         return reverse('profile', kwargs={'pk': profile.pk})
+    def get_success_url(self):
+        """Return URL to redirect to after a successful delete"""
+        post = self.get_object()
+        profile = post.profile
+        return reverse("profile", kwargs={"pk": profile.pk})
 
 
 

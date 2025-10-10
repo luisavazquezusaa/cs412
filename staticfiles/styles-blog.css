@@ -206,3 +206,31 @@ article.profile-detail img {
 .post-card:hover {
     transform: translateY(-5px);
 }
+
+.cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.cancel-btn:hover .icon {
+    filter: brightness(0.8);
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}
+
+.cancel-btn .icon {
+    width: 20px;      
+    height: 20px;     
+    object-fit: contain; 
+}
+
+a.cancel-btn img.icon {
+    width: 30px !important;
+    height: auto !important;
+    display: inline-block;
+    object-fit: contain;
+  }
