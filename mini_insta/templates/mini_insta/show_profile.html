@@ -21,6 +21,7 @@
             <p>
                 {{profile.bio_text}} <!-- Added this one because I though it looked nicer-->
             </p>
+
         </div>
 
         <img src="{{ profile.profile_image_url }}" alt="Profile image" class="profile-pic">
@@ -46,7 +47,7 @@
                 {% if post.get_all_photos %}
                     <!-- Show only the first photo -->
                     <a href="{% url 'post' post.pk %}">
-                        <img src="{{ post.get_all_photos.0.image_url }}" alt="Post image">
+                        <img src="{{ post.get_all_photos.0.get_image_url }}" alt="Post image">
                     </a>
                     <p><em>Posted at {{ post.timestamp }}</em></p>
                 {% else %}

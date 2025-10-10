@@ -18,7 +18,7 @@ class Profile(models.Model):
     display_name = models.TextField(blank = True)
     bio_text = models.TextField(blank = True)
     join_date = models.DateTimeField(auto_now = True)
-    profile_image_url = models.URLField(blank = True)
+    profile_image_url = models.URLField(blank = True) #url as a string
 
     def __str__(self): 
         '''return a string representation of the model instance.'''
@@ -58,15 +58,22 @@ class Post(models.Model):
 class Photo(models.Model): 
     '''Encapsulate the idea of a comment in an Article'''
 
-    # data atributes for the Post:
+    # data atributes for the Photo:
     # post = models.ForeignKey(Post, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now=True) #tells when comment was written 
     image_url = models.URLField(blank = True)
+    image_file = models.ImageField(blank=True) # an actual image 
 
-    def __str__(self):
-        '''Return a string representation of this comment'''
-        return f'{self.timestamp}'
+    def get_image_url(self):
+        if self.image_file:
+            return self.image_file.url
+        return self.image_url
+    
+        
+
+
+
     
 
 

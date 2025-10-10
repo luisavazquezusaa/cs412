@@ -8,13 +8,18 @@ from .models import *
 class CreatePostForm(forms.ModelForm): 
         '''A form to add a comment about an article'''
 
-        image_url = forms.URLField(required=False, label="Image URL")
-
         class Meta: 
                 '''associate this form with a model from our database'''
                 model = Post
-                #fields = ['profile', 'username', 'bio_text'] #deleated
-                fields = ['caption', 'image_url'] #we dont want the drop down list
+                fields = ['caption'] #we dont want the drop down list
+
+# class UpdatePostForm(forms.ModelForm):
+#         '''A form to handle or update a post'''
+#         class Meta:
+#                 '''associate this form with the Post model.'''
+#                 model = Post
+#                 fields = ['caption', 'image_url', 'image_file']  # which fields from model should we use
+
 
 
 #Examples Assignment 4:

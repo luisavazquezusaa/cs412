@@ -4,7 +4,7 @@
 # Description: this file is my views for mini insta 
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView #UpdateView, DeleteView
 # from .models import Article --> from example
 from .models import Profile, Post, Photo
 import random
@@ -70,12 +70,48 @@ class CreatePostView(CreateView):
         # delegate the saving of Post to the superclass
         response = super().form_valid(form)
 
-        # if the user entered a Photo URL, create a Photo object
-        image_url = form.cleaned_data.get('image_url')
-        if image_url:
-            Photo.objects.create(post=self.object, image_url=image_url)
+        # # if the user entered a Photo URL, create a Photo object
+        # image_url = form.cleaned_data.get('image_url')
+        # if image_url:
+        #     Photo.objects.create(post=self.object, image_url=image_url)
+
+        # handle image files
+        image_files = self.request.FILES.getlist('image_files')
+        for file in image_files:
+            Photo.objects.create(post=self.object, image_file=file)
 
         return response
+    
+# class UpdatePostView (UpdateView):
+#     ''' A view to update an Post and save it to the database. '''
+
+#     model = Post
+#     form_class = UpdatePostForm 
+#     template_name = "mini_insta/update_post_form.html"
+
+# class DeletePostView (DeleteView):
+#     '''View class to delet a post in a Profile'''
+
+#     model = Post
+#     template_name = "mini_insta/delete_post_form.html"
+
+#     def get_success_url(self):
+#         '''Return URL to direct to after a succesful delete '''
+
+#         #find the pk for this post  
+#         pk = self.kwargs['pk']
+
+#         #find the POst object: 
+#         post = Post.objects.get(pk=pk)
+       
+#         #find the PK of the Profile to which this Post is associated:
+#         profile = post.profile
+
+#         #return the URL to redirect to: 
+#         return reverse('profile', kwargs={'pk': profile.pk})
+
+
+
   
 
 
@@ -94,6 +130,10 @@ class CreatePostView(CreateView):
 
         #     form_class = CreateArticleForm 
         #     template_name = "mini_insta/create_article_form.html"
+
+            # def form_valid(self, form): 
+            #     '''Handle the form submission to create a new Article object.'''
+            #     print(f'CreateArticleView: form.cleaned_data={form.cleaned_data}')
 
         # class CreateCommentView(CreateView): 
         #     '''a view to handle creation of a new Comment on a Profile'''

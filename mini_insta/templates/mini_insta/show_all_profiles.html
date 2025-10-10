@@ -33,8 +33,14 @@
         </div>
         
         <!-- Code to link profile to image when clicked -->
-        <a href = "{% url 'profile' profile.pk %}">
-        <img src="{{profile.profile_image_url}}" alt=""> 
+        <a href = "{% url 'profile' profile.pk %}">  
+        {% if profile.profile_image_url %}
+            <img src="{{profile.profile_image_url}}" alt=""> 
+        {% elif profile.profile_image_file %}
+            <img src="{{profile.profile_image_file.url}}" alt=""> <!-- code to to display the image from file-->
+        {% else %}
+            <h3>No Image</h3>
+        {% endif %}
         </a>
 
     </article> 

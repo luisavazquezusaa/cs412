@@ -15,4 +15,9 @@
     <input type="submit" name="submit" values="Submit">
 </form>
 
+<form action = "{% url 'post' post.pk% }" method = "GET">
+    <input type="submit" value="Cancel">
+
+</form>
+
 {% endblock %}

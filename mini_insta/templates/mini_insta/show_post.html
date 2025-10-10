@@ -12,20 +12,21 @@
 <main> 
     <h1>{{ post.caption }}</h1> 
 
-    {% if post.get_all_photos %}
         <div>
             <!-- Show all photos for this post -->
             {% for photo in post.get_all_photos %}
-                <img src="{{ photo.image_url }}" alt="Post image">
+
+                {% if photo.get_image_url %}
+                    <img src="{{ photo.get_image_url }}" alt="Post image">
                 
+                {% else %}
+
+                    <!-- if no photos available, show No Image -->
+                    <img src="{% static 'images/no_image.png' %}" alt="No image available">
+                {% endif %}
             {% endfor %}
         </div>
-    {% else %}
-        <div>
-            <!-- if no photos available, show No Image -->
-            <img src="{% static 'images/no_image.png' %}" alt="No image available">
-        </div>
-    {% endif %}
+
     <h3>Posted on {{ post.timestamp }}</h3>
 </main>
 
