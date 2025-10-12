@@ -63,13 +63,17 @@ class Photo(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now=True) #tells when comment was written 
     image_url = models.URLField(blank = True)
-    image_file = models.ImageField(blank=True) # an actual image 
+    image_file = models.ImageField(upload_to='photos/', blank=True, null=True) # an actual image. Note: Changed the code from the example bc during deployment the images weren't showing. 
 
     def get_image_url(self):
         if self.image_file:
             return self.image_file.url
         return self.image_url
     
+    def __str__(self):
+        img = self.get_image_url()
+        return f"Photo[{img}]" if img else f"Photo id={self.pk}"
+
         
 
 
