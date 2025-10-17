@@ -1,0 +1,72 @@
+<!-- mini_insta/show_feed.html 
+# File: show_feed.html 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 10/17/2025
+# Description: displays the post feed for a single Profile in mini_insta
+-->
+
+{% extends 'mini_insta/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="feed-page">
+    <!-- using classes so my css can handle styling -->
+
+    <section class="feed-header">
+        <h2>{{ profile.username }}’s Feed</h2>
+
+        <a href="{% url 'profile' profile.pk %}">
+            <img src="{% static 'images/back_to_profile_icon.png' %}" alt="Back to Profile" width="150">
+        </a>
+    </section>
+
+    <!-- Display the posts from followed profiles -->
+    {% if posts %}
+        <section class="feed-posts">
+            {% for post in posts %}
+                <article class="feed-post-card">
+                    
+                    <!-- profile info -->
+                    <div class="post-header">
+                        <img src="{{ post.profile.profile_image_url }}" alt="Profile image" class="tiny-profile-pic">
+                        <div class="post-user-info">
+                            <strong>@{{ post.profile.username }}</strong><br>
+                            <span>{{ post.profile.display_name }}</span>
+                        </div>
+                    </div>
+
+                    <div class="post-image">
+                        {% with first_photo=post.get_all_photos.0 %}
+                            {% if first_photo %}
+                                {% if first_photo.image_file %}
+                                    <img src="{{ first_photo.image_file.url }}" alt="Post image" class="feed-post-image">
+                                {% elif first_photo.image_url %}
+                                    <img src="{{ first_photo.image_url }}" alt="Post image" class="feed-post-image">
+                                {% endif %}
+                            {% else %}
+                                <img src="{% static 'images/no_image.png' %}" alt="No image" class="feed-post-image">
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="post-caption">
+                        <p>{{ post.caption }}</p>
+                        <p><em>Posted at {{ post.timestamp }}</em></p>
+                    </div>
+
+                    <div class="post-stats">
+                        <p><strong>{{ post.get_num_likes }}</strong> likes</p>
+                        <p><strong>{{ post.get_all_comments|length }}</strong> comments</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <p>No posts yet from profiles you follow.</p>
+    {% endif %}
+</main>
+
+{% endblock %}
+
+
+

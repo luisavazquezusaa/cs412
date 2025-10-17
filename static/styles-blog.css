@@ -313,3 +313,97 @@ article.profile-detail img {
         font-size: 1.1rem;
     }
 }
+
+/* feeder page styling */
+
+.feed-page {
+    background-color: #ffe2e7;
+    padding: 2rem;
+    font-family: 'Helvetica', sans-serif;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-radius: 15px;
+}
+
+.feed-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.feed-header h2 {
+    font-size: 2rem;
+    color: #222;
+}
+
+.feed-header h3 {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+
+.feed-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+.feed-post-card {
+    background-color: #ffc5ce;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.tiny-profile-pic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.post-user-info {
+    text-align: left;
+}
+
+.post-user-info strong {
+    font-size: 1.1rem;
+    color: #111;
+}
+
+.post-user-info span {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+
+.feed-post-image {
+    width: 300px;
+    max-width: 100%;
+    display: block;
+    margin: 0.5rem auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.post-caption {
+    text-align: center;
+    margin-top: 0.5rem;
+    color: #222;
+}
+
+.post-stats {
+    text-align: center;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    color: #333;
+}

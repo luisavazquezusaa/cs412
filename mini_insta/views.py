@@ -151,6 +151,56 @@ class ShowFollowingDetailView(DetailView):
         context['following_profiles'] = profile.get_following()
         context['num_following'] = profile.get_num_following()
         return context
+    
+class PostFeedListView(ListView):
+    '''display all of the Posts in the feed'''
+
+    model = Post
+    template_name = "mini_insta/show_feed.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        '''return the posts made by the profiles this user follows.'''
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        return profile.get_post_feed()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        context['profile'] = profile
+        return context
+    
+
+class SearchView(ListView):
+    '''Search across Profiles and Posts.'''
+    model = Post
+    template_name = 'mini_insta/search_results.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        '''return Posts that match'''
+        query = self.request.GET.get('q', '')
+        if query:
+            return Post.objects.filter(caption__icontains=query)
+        return Post.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q', '')
+        context['query'] = query
+        context['profile'] = Profile.objects.get(pk=self.kwargs['pk'])
+
+        if query:
+            username_matches = Profile.objects.filter(username__icontains=query)
+            display_matches = Profile.objects.filter(display_name__icontains=query)
+            context['profiles'] = (username_matches | display_matches).distinct()
+        else:
+            context['profiles'] = Profile.objects.none()
+
+        return context
+
 
 
 

@@ -21,7 +21,7 @@
         {% endblock%}
     </body>
 
-    <nav>
+    <!-- <nav>
         <ul>
             <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
             {% if profile %}
@@ -30,5 +30,36 @@
                 <li><a href="{% url 'create_post' post.profile.pk %}">Create Post</a></li>
              {% endif %}
         </ul>
+    </nav> -->
+
+
+    <nav>
+        <ul>
+            <!-- Link to the Feed (Home) -->
+            {% if profile %}
+                <li><a href="{% url 'show_feed' profile.pk %}">Feed</a></li>
+            {% elif post %}
+                <li><a href="{% url 'show_feed' post.profile.pk %}">Feed</a></li>
+            {% endif %}
+
+            <!-- Link to All Profiles -->
+            <li><a href="{% url 'show_all_profiles' %}">All Profiles</a></li>
+
+            <!-- Link to Profile -->
+            {% if profile %}
+                <li><a href="{% url 'profile' profile.pk %}">Profile</a></li>
+            {% elif post %}
+                <li><a href="{% url 'profile' post.profile.pk %}">Profile</a></li>
+            {% endif %}
+
+            <!-- Link to Create Post -->
+            {% if profile %}
+                <li><a href="{% url 'create_post' profile.pk %}">Create Post</a></li>
+            {% elif post %}
+                <li><a href="{% url 'create_post' post.profile.pk %}">Create Post</a></li>
+            {% endif %}
+        </ul>
     </nav>
+
+
 </html>

@@ -58,6 +58,16 @@ class Profile(models.Model):
         '''return the count of Profiles this Profile follows.'''
         from .models import Follow
         return Follow.objects.filter(follower_profile=self).count()
+    
+    def get_post_feed(self):
+        '''  return a list/QuerySet of Posts, specifically for the profiles being followed'''
+        from .models import Follow, Post
+        following = Follow.objects.filter(follower_profile=self)
+        followed_profiles = [f.profile for f in following]
+        feed_posts = Post.objects.filter(profile__in=followed_profiles).order_by('-timestamp')
+
+        return feed_posts
+
 
 
     
@@ -119,10 +129,8 @@ class Photo(models.Model):
 class Follow(models.Model):
     '''Represents one Profile following another Profile.'''
 
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile"   # the one being followed or publisher
-    )
-    follower_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="follower_profile"   # the one who follows or subscriber
-    )
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile"  )
+    follower_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="follower_profile")
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
