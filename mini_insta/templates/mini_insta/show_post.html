@@ -25,18 +25,19 @@
         <!-- Show all photos for this post -->
         {% for photo in post.get_all_photos %}
             {% if photo.image_file %}
-                <img src="{{ photo.image_file.url }}" alt="Post image">
+                <img src="{{ photo.image_file.url }}" alt="Post image"> 
             {% elif photo.image_url %}
-                <img src="{{ photo.image_url }}" alt="Post image">
+                <img src="{{ photo.image_url }}" alt="Post image"> 
             {% else %}
                 <!-- if no photos available, show No Image -->
-                <img src="{% static 'images/no_image.png' %}" alt="No image available">
+                <img src="{% static 'images/no_image.png' %}" alt="No image available"> 
             {% endif %}
         {% endfor %}
 
+        <br>
         <!-- Display likes and count of likes -->
         {% if post.get_num_likes == 1 %}
-            Liked by <strong>@{{ post.get_likes.0.profile.username }}</strong>
+            Liked by <strong>@{{ post.get_likes.0.profile.username }}</strong> 
         {% elif post.get_num_likes > 1 %}
             Liked by <strong>@{{ post.get_likes.0.profile.username }}</strong> and <strong>{{ post.get_num_likes|add:"-1" }}</strong> others
         {% else %}
@@ -44,17 +45,17 @@
         {% endif %}
 
 
-
+        <br>
 
 
         <!--Display comments after the photos-->
         {% for comment in post.get_all_comments%}
-            <br> {{comment}} <br>
+        <br>{{comment}} 
         {% endfor %}
 
     </div>
 
-    <h3>Posted on {{ post.timestamp }}</h3>
+    <p>Posted on {{ post.timestamp }}</p>
 </main>
 
 {% endblock %}

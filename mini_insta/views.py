@@ -173,14 +173,26 @@ class PostFeedListView(ListView):
         return context
     
 
+from django.views.generic import ListView
+from django.shortcuts import render
+from .models import Profile, Post
+
+
 class SearchView(ListView):
-    '''Search across Profiles and Posts.'''
-    model = Post
+    '''search across Profiles and Posts.'''
     template_name = 'mini_insta/search_results.html'
-    context_object_name = 'posts'
+    context_object_name = 'posts'  
+
+    def dispatch(self, request, *args, **kwargs):
+        query = self.request.GET.get('q', None)
+        if not query:
+            pk = self.kwargs['pk']
+            profile = Profile.objects.get(pk=pk)
+            return render(request, 'mini_insta/search.html', {'profile': profile})
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        '''return Posts that match'''
+        ''' return Posts that matches the query in their caption text'''
         query = self.request.GET.get('q', '')
         if query:
             return Post.objects.filter(caption__icontains=query)
@@ -189,17 +201,20 @@ class SearchView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get('q', '')
+        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        context['profile'] = profile
         context['query'] = query
-        context['profile'] = Profile.objects.get(pk=self.kwargs['pk'])
 
         if query:
             username_matches = Profile.objects.filter(username__icontains=query)
             display_matches = Profile.objects.filter(display_name__icontains=query)
-            context['profiles'] = (username_matches | display_matches).distinct()
+            bio_matches = Profile.objects.filter(bio_text__icontains=query)
+            context['profiles'] = (username_matches | display_matches | bio_matches).distinct()
         else:
             context['profiles'] = Profile.objects.none()
 
         return context
+
 
 
 

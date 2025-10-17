@@ -16,7 +16,7 @@
         <h2>{{ profile.username }}’s Feed</h2>
 
         <a href="{% url 'profile' profile.pk %}">
-            <img src="{% static 'images/back_to_profile_icon.png' %}" alt="Back to Profile" width="150">
+            <img src="{% static 'images/back_to_profile_icon.png' %}" width="150">
         </a>
     </section>
 
@@ -28,7 +28,7 @@
                     
                     <!-- profile info -->
                     <div class="post-header">
-                        <img src="{{ post.profile.profile_image_url }}" alt="Profile image" class="tiny-profile-pic">
+                        <img src="{{ post.profile.profile_image_url }}" class="tiny-profile-pic">
                         <div class="post-user-info">
                             <strong>@{{ post.profile.username }}</strong><br>
                             <span>{{ post.profile.display_name }}</span>
@@ -36,17 +36,17 @@
                     </div>
 
                     <div class="post-image">
-                        {% with first_photo=post.get_all_photos.0 %}
-                            {% if first_photo %}
-                                {% if first_photo.image_file %}
-                                    <img src="{{ first_photo.image_file.url }}" alt="Post image" class="feed-post-image">
-                                {% elif first_photo.image_url %}
-                                    <img src="{{ first_photo.image_url }}" alt="Post image" class="feed-post-image">
-                                {% endif %}
+                        {% if post.get_all_photos %}
+                            {% if post.get_all_photos.0.image_file %}
+                                <img src="{{ post.get_all_photos.0.image_file.url }}" alt="Post image" class="feed-post-image">
+                            {% elif post.get_all_photos.0.image_url %}
+                                <img src="{{ post.get_all_photos.0.image_url }}" alt="Post image" class="feed-post-image">
                             {% else %}
                                 <img src="{% static 'images/no_image.png' %}" alt="No image" class="feed-post-image">
                             {% endif %}
-                        {% endwith %}
+                        {% else %}
+                            <img src="{% static 'images/no_image.png' %}" alt="No image" class="feed-post-image">
+                        {% endif %}
                     </div>
 
                     <div class="post-caption">

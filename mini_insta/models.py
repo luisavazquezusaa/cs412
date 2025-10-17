@@ -68,8 +68,6 @@ class Profile(models.Model):
 
         return feed_posts
 
-
-
     
 class Post(models.Model): 
     '''Encapsulate the idea of a comment in an Article'''

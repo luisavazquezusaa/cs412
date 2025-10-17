@@ -234,127 +234,226 @@ article.profile-detail img {
 
 /* CSS for followed and following  */
 
-/* Shared page layout */
-.followers-page,
-.following-page {
+.follow-page {
+    background-color: #ffc5ce;
     padding: 2rem;
-    max-width: 900px;
-    margin: 0 auto;
+    text-align: center;
+    font-family: 'Helvetica', sans-serif;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/*  HEADER SECTION */
-.profile-header-followers,
-.profile-header-following {
+/* header styling */
+.follow-header {
+    margin-bottom: 1.5rem;
+}
+
+.follow-header h2 {
+    font-size: 2rem;
+    color: #222;
+    margin-bottom: 0.3rem;
+}
+
+.follow-header p {
+    font-size: 1.1rem;
+    color: #444;
+}
+
+/* list styling */
+.follow-list {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
+    position: relative;
+}
+
+.follow-list p {
+    margin: 0.6rem 0;
+}
+
+.follow-list a {
+    text-decoration: none;
+    color: #111;
+    transition: color 0.2s ease-in-out;
+}
+
+.follow-list a:hover {
+    color: #b8006a;
+}
+
+
+.back-icon-bottom {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+}
+
+.back-to-profile-icon {
+    width: 90px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.back-to-profile-icon:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 700px) {
+    .back-to-profile-icon {
+        width: 70px;
+    }
+
+    .follow-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .follow-list {
+        font-size: 1.1rem;
+    }
+}
+
+/* feeder page styling */
+
+.feed-page {
+    background-color: #ffe2e7;
+    padding: 2rem;
+    font-family: 'Helvetica', sans-serif;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-radius: 15px;
+}
+
+.feed-header {
     text-align: center;
     margin-bottom: 2rem;
 }
 
-.profile-header-followers .header-text h2,
-.profile-header-following .header-text h2 {
+.feed-header h2 {
     font-size: 2rem;
-    margin-bottom: 0.3rem;
-    color: #333;
+    color: #222;
 }
 
-.profile-header-followers .header-text h3,
-.profile-header-following .header-text h3 {
-    font-size: 1.2rem;
+.feed-header h3 {
+    font-size: 1.1rem;
     color: #555;
 }
 
-/* PROFILE SUMMARY SECTION */
-/* Layout: text left, image right */
-.profile-summary-followers,
-.profile-summary-following {
+
+.feed-posts {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+.feed-post-card {
+    background-color: #ffc5ce;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.post-header {
+    display: flex;
     align-items: center;
-    margin-top: 2rem;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.tiny-profile-pic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.post-user-info {
     text-align: left;
 }
 
-/* Text details on the left */
-.profile-summary-followers .profile-text,
-.profile-summary-following .profile-text {
-    flex: 1;
-    padding-right: 1rem;
+.post-user-info strong {
+    font-size: 1.1rem;
+    color: #111;
 }
 
-/* Profile image on the right */
-.profile-summary-followers .profile-image-box,
-.profile-summary-following .profile-image-box {
-    flex-shrink: 0;
+.post-user-info span {
+    font-size: 0.9rem;
+    color: #444;
 }
 
-/* Profile image style */
-.profile-summary-followers .profile-pic,
-.profile-summary-following .profile-pic {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
+
+.feed-post-image {
+    width: 300px;
+    max-width: 100%;
+    display: block;
+    margin: 0.5rem auto;
+    border-radius: 10px;
     object-fit: cover;
 }
 
-.back-to-profile-icon:hover {
-    transform: scale(1.05);
-}
-
-/*FOLLOWERS / FOLLOWING LISTS */
-.followers-list,
-.following-list {
-    margin-top: 3rem;
+.post-caption {
     text-align: center;
+    margin-top: 0.5rem;
+    color: #222;
 }
 
-.followers-list h2,
-.following-list h2 {
-    font-size: 1.8rem;
+.post-stats {
+    text-align: center;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
     color: #333;
-    margin-bottom: 1rem;
 }
 
-.followers-list ul,
-.following-list ul {
-    list-style-type: none;
-    padding: 0;
+/* css for search  */
+
+/* Search Page Styling */
+.search-page, .search-results-page {
+    background-color: #ffe2e7;
+    padding: 2rem;
+    font-family: 'Helvetica', sans-serif;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.followers-list li,
-.following-list li {
-    font-size: 1.3rem;
-    margin: 0.5rem 0;
+.search-box {
+    width: 70%;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #aaa;
 }
 
-.followers-list a,
-.following-list a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.2s ease-in-out;
+.search-btn {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #b8006a;
+    color: white;
+    cursor: pointer;
 }
 
-.followers-list a:hover,
-.following-list a:hover {
-    color: #5c5cd6;
+.search-btn:hover {
+    background-color: #930056;
 }
 
-@media (max-width: 700px) {
-    .profile-summary-followers,
-    .profile-summary-following {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+.search-section {
+    margin-top: 2rem;
+}
 
-    .profile-summary-followers .profile-text,
-    .profile-summary-following .profile-text {
-        padding-right: 0;
-        margin-bottom: 1rem;
-    }
-
-    .profile-summary-followers .profile-pic,
-    .profile-summary-following .profile-pic {
-        width: 130px;
-        height: 130px;
-    }
+.search-result-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #ffc5ce;
+    padding: 0.7rem;
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
 }
 

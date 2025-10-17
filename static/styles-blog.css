@@ -407,3 +407,53 @@ article.profile-detail img {
     font-size: 0.95rem;
     color: #333;
 }
+
+/* css for search  */
+
+/* Search Page Styling */
+.search-page, .search-results-page {
+    background-color: #ffe2e7;
+    padding: 2rem;
+    font-family: 'Helvetica', sans-serif;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-box {
+    width: 70%;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+}
+
+.search-btn {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #b8006a;
+    color: white;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #930056;
+}
+
+.search-section {
+    margin-top: 2rem;
+}
+
+.search-result-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #ffc5ce;
+    padding: 0.7rem;
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+}
+
