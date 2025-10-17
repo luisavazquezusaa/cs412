@@ -33,6 +33,25 @@
                 <img src="{% static 'images/no_image.png' %}" alt="No image available">
             {% endif %}
         {% endfor %}
+
+        <!-- Display likes and count of likes -->
+        {% if post.get_num_likes == 1 %}
+            Liked by <strong>@{{ post.get_likes.0.profile.username }}</strong>
+        {% elif post.get_num_likes > 1 %}
+            Liked by <strong>@{{ post.get_likes.0.profile.username }}</strong> and <strong>{{ post.get_num_likes|add:"-1" }}</strong> others
+        {% else %}
+            No one has liked this post
+        {% endif %}
+
+
+
+
+
+        <!--Display comments after the photos-->
+        {% for comment in post.get_all_comments%}
+            <br> {{comment}} <br>
+        {% endfor %}
+
     </div>
 
     <h3>Posted on {{ post.timestamp }}</h3>

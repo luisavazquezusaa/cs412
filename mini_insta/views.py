@@ -118,6 +118,40 @@ class DeletePostView (DeleteView):
         post = self.get_object()
         profile = post.profile
         return reverse("profile", kwargs={"pk": profile.pk})
+    
+# Assignment 6 
+    
+class ShowFollowersDetailView(DetailView):
+    """display followers for a Profile."""
+    model = Profile
+    template_name = "mini_insta/show_followers.html"
+    context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        context['profile'] = profile
+        context['followers'] = profile.get_followers()
+        context['num_followers'] = profile.get_num_followers()
+        return context
+
+
+class ShowFollowingDetailView(DetailView):
+    """display Profiles (subscribed) that this Profile follows."""
+    model = Profile
+    template_name = "mini_insta/show_following.html"
+    context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        context['profile'] = profile
+        context['following_profiles'] = profile.get_following()
+        context['num_following'] = profile.get_num_following()
+        return context
+
 
 
 

@@ -137,8 +137,6 @@ article.profile-detail img {
     display: block;
 }
 
-/* added this for my posts for assignemnt 4 */
-/* Profile page header */
 .profile-header {
     display: flex;
     align-items: center;
@@ -148,10 +146,10 @@ article.profile-detail img {
 }
 
 .profile-pic {
-    width: 200px;        /* or auto */
-    height: auto;        /* keep proportions */
-    object-fit: contain; /* don’t crop */
-    border-radius: 0;    /* remove the circle */
+    width: 200px;        
+    height: auto;        
+    object-fit: contain; 
+    border-radius: 0;  
     border: 4px solid #fff;
     display: block;
 }
@@ -166,7 +164,7 @@ article.profile-detail img {
     margin: 5px 0;
 }
 
-/* Posts grid uses your existing grid-container */
+
 .posts-grid {
     margin-top: 20px;
 }
@@ -176,18 +174,18 @@ article.profile-detail img {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    overflow: hidden;   /* ensures image stays inside */
+    overflow: hidden;   
     text-align: center;
     padding-bottom: 15px;
 }
 
 .post-card img {
-    width: 100%;         /* fill the card width */
-    max-width: 350px;    /* but don’t go larger than this */
-    max-height: 250px;   /* cap height */
-    object-fit: contain; /* keep the full image inside */
+    width: 100%;         
+    max-width: 350px;    
+    max-height: 250px;   
+    object-fit: contain; 
     display: block;
-    margin: 0 auto;      /* center */
+    margin: 0 auto;    
 }
 
 
@@ -205,4 +203,113 @@ article.profile-detail img {
 
 .post-card:hover {
     transform: translateY(-5px);
+}
+
+
+.profile-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-box {
+    background-color: #f9f9ff;
+    border: 1px solid #dcdcf0;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+}
+
+.stat-box h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.stat-box p {
+    margin: 0;
+    color: #666;
+}
+
+/* CSS for followed and following  */
+
+.follow-page {
+    background-color: #ffc5ce;
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Helvetica', sans-serif;
+    max-width: 700px;
+    margin: 2rem auto;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* header styling */
+.follow-header {
+    margin-bottom: 1.5rem;
+}
+
+.follow-header h2 {
+    font-size: 2rem;
+    color: #222;
+    margin-bottom: 0.3rem;
+}
+
+.follow-header p {
+    font-size: 1.1rem;
+    color: #444;
+}
+
+/* list styling */
+.follow-list {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
+    position: relative;
+}
+
+.follow-list p {
+    margin: 0.6rem 0;
+}
+
+.follow-list a {
+    text-decoration: none;
+    color: #111;
+    transition: color 0.2s ease-in-out;
+}
+
+.follow-list a:hover {
+    color: #b8006a;
+}
+
+
+.back-icon-bottom {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+}
+
+.back-to-profile-icon {
+    width: 90px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.back-to-profile-icon:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 700px) {
+    .back-to-profile-icon {
+        width: 70px;
+    }
+
+    .follow-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .follow-list {
+        font-size: 1.1rem;
+    }
 }

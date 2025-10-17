@@ -16,11 +16,27 @@
         <div> 
             <h1>{{profile.username}}</h1>
             <h3>by {{profile.display_name}}</h3>
-            <h3> Joined {{profile.join_date}} </h3>
+            <h3> {{profile.bio_text}}  </h3>
 
-            <p>
-                {{profile.bio_text}} <!-- Added this one because I though it looked nicer-->
-            </p>
+            <p> Joined {{profile.join_date}} </p>
+
+            <!-- display the followers/followed-->
+            <div class="profile-stats">
+                <a href="{% url 'show_followers' profile.pk %}">
+                    <div class="stat-box">
+                        <h2>{{ profile.get_num_followers }}</h2>
+                        <p>followers</p>
+                    </div>
+                </a>
+            
+                <a href="{% url 'show_following' profile.pk %}">
+                    <div class="stat-box">
+                        <h2>{{ profile.get_num_following }}</h2>
+                        <p>following</p>
+                    </div>
+                </a>
+            </div>
+
 
         </div>
 

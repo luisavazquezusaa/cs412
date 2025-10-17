@@ -25,7 +25,7 @@ class Profile(models.Model):
         return f'{self.username} joined {self.join_date}'
     
     def get_absolute_url(self): 
-        '''Return a URL to displya one instance of this object.'''
+        '''return a URL to displya one instance of this object.'''
         return reverse('profile', kwargs={'pk': self.pk})
     
     def get_all_posts(self):
@@ -34,6 +34,31 @@ class Profile(models.Model):
         
         posts = Post.objects.filter(profile=self)
         return posts
+    
+    def get_followers(self):
+        '''Return a list of Profiles who follow this Profile.'''
+        from .models import Follow
+        follow_records = Follow.objects.filter(profile=self)
+        followers = [follow.follower_profile for follow in follow_records]
+        return followers
+
+    def get_num_followers(self):
+        '''return the count of followers.'''
+        from .models import Follow
+        return Follow.objects.filter(profile=self).count()
+
+    def get_following(self):
+        '''return a list of Profiles this Profile follows.'''
+        from .models import Follow
+        follow_records = Follow.objects.filter(follower_profile=self)
+        following_profiles = [follow.profile for follow in follow_records]
+        return following_profiles
+
+    def get_num_following(self):
+        '''return the count of Profiles this Profile follows.'''
+        from .models import Follow
+        return Follow.objects.filter(follower_profile=self).count()
+
 
     
 class Post(models.Model): 
@@ -53,6 +78,22 @@ class Post(models.Model):
         photos = Photo.objects.filter(post=self).order_by('-timestamp')
         return photos
 
+    def get_all_comments(self):
+        '''Return all comments for a this Post.'''
+        from .models import Comment
+        comments = Comment.objects.filter(post=self).order_by('-timestamp')
+        return comments
+    
+    def get_likes(self):
+        '''get all likes for this Post.'''
+        from .models import Like
+        likes =  Like.objects.filter(post=self).order_by('-timestamp')
+        return likes
+    
+    def get_num_likes(self):
+        '''return the number of likes for this Post.'''
+        from .models import Like
+        return Like.objects.filter(post=self).count()
     
 
 class Photo(models.Model): 
@@ -75,6 +116,42 @@ class Photo(models.Model):
         return f"Photo[{img}]" if img else f"Photo id={self.pk}"
 
         
+class Follow(models.Model):
+    '''Represents one Profile following another Profile.'''
+
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile"   # the one being followed or publisher
+    )
+    follower_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="follower_profile"   # the one who follows or subscriber
+    )
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.follower_profile.username} follows {self.profile.username}"
+    
+
+class Comment(models.Model):
+    '''Encapsulate the idea of a comment in a Post'''
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    text = models.TextField(blank=False)
+    timestamp = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        '''Return a string representation of this comment'''
+        return f'{self.profile.username} commented: {self.text}'
+    
+class Like(models.Model):
+    ''' Encapsulates the idea of one Profile providing approval of a Post'''
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True) 
+
+    def __str__(self): 
+        '''Return a string representation of this like'''
+        return f'{self.profile.username}'
+
+
 
 
 

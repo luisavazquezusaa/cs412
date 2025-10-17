@@ -137,8 +137,6 @@ article.profile-detail img {
     display: block;
 }
 
-/* added this for my posts for assignemnt 4 */
-/* Profile page header */
 .profile-header {
     display: flex;
     align-items: center;
@@ -148,10 +146,10 @@ article.profile-detail img {
 }
 
 .profile-pic {
-    width: 200px;        /* or auto */
-    height: auto;        /* keep proportions */
-    object-fit: contain; /* don’t crop */
-    border-radius: 0;    /* remove the circle */
+    width: 200px;        
+    height: auto;        
+    object-fit: contain; 
+    border-radius: 0;  
     border: 4px solid #fff;
     display: block;
 }
@@ -166,7 +164,7 @@ article.profile-detail img {
     margin: 5px 0;
 }
 
-/* Posts grid uses your existing grid-container */
+
 .posts-grid {
     margin-top: 20px;
 }
@@ -176,18 +174,18 @@ article.profile-detail img {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    overflow: hidden;   /* ensures image stays inside */
+    overflow: hidden;   
     text-align: center;
     padding-bottom: 15px;
 }
 
 .post-card img {
-    width: 100%;         /* fill the card width */
-    max-width: 350px;    /* but don’t go larger than this */
-    max-height: 250px;   /* cap height */
-    object-fit: contain; /* keep the full image inside */
+    width: 100%;         
+    max-width: 350px;    
+    max-height: 250px;   
+    object-fit: contain; 
     display: block;
-    margin: 0 auto;      /* center */
+    margin: 0 auto;    
 }
 
 
@@ -207,30 +205,156 @@ article.profile-detail img {
     transform: translateY(-5px);
 }
 
-.cancel-btn {
-    display: inline-flex;
+
+.profile-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-box {
+    background-color: #f9f9ff;
+    border: 1px solid #dcdcf0;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+}
+
+.stat-box h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.stat-box p {
+    margin: 0;
+    color: #666;
+}
+
+/* CSS for followed and following  */
+
+/* Shared page layout */
+.followers-page,
+.following-page {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/*  HEADER SECTION */
+.profile-header-followers,
+.profile-header-following {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-header-followers .header-text h2,
+.profile-header-following .header-text h2 {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+.profile-header-followers .header-text h3,
+.profile-header-following .header-text h3 {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* PROFILE SUMMARY SECTION */
+/* Layout: text left, image right */
+.profile-summary-followers,
+.profile-summary-following {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: none;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+/* Text details on the left */
+.profile-summary-followers .profile-text,
+.profile-summary-following .profile-text {
+    flex: 1;
+    padding-right: 1rem;
+}
+
+/* Profile image on the right */
+.profile-summary-followers .profile-image-box,
+.profile-summary-following .profile-image-box {
+    flex-shrink: 0;
+}
+
+/* Profile image style */
+.profile-summary-followers .profile-pic,
+.profile-summary-following .profile-pic {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.back-to-profile-icon:hover {
+    transform: scale(1.05);
+}
+
+/*FOLLOWERS / FOLLOWING LISTS */
+.followers-list,
+.following-list {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.followers-list h2,
+.following-list h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.followers-list ul,
+.following-list ul {
+    list-style-type: none;
     padding: 0;
 }
 
-.cancel-btn:hover .icon {
-    filter: brightness(0.8);
-    transform: scale(1.1);
-    transition: all 0.2s ease;
+.followers-list li,
+.following-list li {
+    font-size: 1.3rem;
+    margin: 0.5rem 0;
 }
 
-.cancel-btn .icon {
-    width: 20px;      
-    height: 20px;     
-    object-fit: contain; 
+.followers-list a,
+.following-list a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s ease-in-out;
 }
 
-a.cancel-btn img.icon {
-    width: 30px !important;
-    height: auto !important;
-    display: inline-block;
-    object-fit: contain;
-  }
+.followers-list a:hover,
+.following-list a:hover {
+    color: #5c5cd6;
+}
+
+@media (max-width: 700px) {
+    .profile-summary-followers,
+    .profile-summary-following {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-summary-followers .profile-text,
+    .profile-summary-following .profile-text {
+        padding-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .profile-summary-followers .profile-pic,
+    .profile-summary-following .profile-pic {
+        width: 130px;
+        height: 130px;
+    }
+}
+
