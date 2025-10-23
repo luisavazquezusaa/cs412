@@ -35,8 +35,8 @@
 </form>
 
 <!-- Form to cancel delete -->
-<form action="{% url 'profile' profile.pk %}" method="get">
-    <a href="{% url 'profile' profile.pk %}">
+<form action="{% url 'profile' post.profile.pk %}" method="get">
+    <a href="{% url 'profile' post.profile.pk %}">
         <img src="{% static 'images/cancel_icon.png' %}" alt="Cancel" width="100">
     </a>
 </form>

@@ -3,13 +3,19 @@
 # Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
 # Description: this file is my views for mini insta 
 
+from django.http.request import HttpRequest as HttpRequest
+from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # from .models import Article --> from example
 from .models import Profile, Post, Photo
 import random
+from django.contrib.auth.mixins import LoginRequiredMixin # for authentication
+from django.contrib.auth.forms import UserCreationForm  # for new Users 
+from django.contrib.auth.models import User  #Django user model 
 from .forms import *      #CreateArticleForm, CreateCommentForm    from example Assignment 4
 from django.urls import reverse
+
 
 
 
@@ -18,6 +24,16 @@ class ProfileListView(ListView):
     model = Profile
     template_name = "mini_insta/show_all_profiles.html"
     context_object_name = "profiles"
+
+    def dispatch(self, request,  *args, **kwargs):
+        '''Override the dispatch method to add debugging information.'''
+
+        if request.user.is_authenticated:
+            print(f'ProfileListView.dispatch(): request.user={request.user}')
+        else: 
+            print(f'ProfileListView.dispatch(): not logged in.')
+
+        return super().dispatch(request, *args, **kwargs)
 
 class ProfileDetailView(DetailView):
     '''Display a single profile'''
@@ -35,34 +51,29 @@ class PostDetailView(DetailView):
     context_object_name = "post" #Note singular variable name
 
 
-class CreatePostView(CreateView):
+class CreatePostView(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new Post on a Profile'''
 
     form_class = CreatePostForm
     template_name = "mini_insta/create_post_form.html"
 
+    # ... get_login_url is fine ...
+
     def get_success_url(self):
         '''Provide a URL to redirect to after creating a new Post'''
-        # retrieve PK from the URL pattern
-        pk = self.kwargs['pk']
-        """After creating, go to the new Post detail page"""
+        # After creating, go to the new Post detail page
         return reverse('post', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
-
-        # add this profile into the context dictionary
+        profile = Profile.objects.get(user=self.request.user)
         context['profile'] = profile
         return context
 
     def form_valid(self, form):
         '''Handle form submission and save the new Post & Photo'''
-        # retrieve PK from the URL pattern
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
 
         # attach this Profile to the Post
         form.instance.profile = profile
@@ -70,24 +81,38 @@ class CreatePostView(CreateView):
         # delegate the saving of Post to the superclass
         response = super().form_valid(form)
 
-        # # if the user entered a Photo URL, create a Photo object
-        # image_url = form.cleaned_data.get('image_url')
-        # if image_url:
-        #     Photo.objects.create(post=self.object, image_url=image_url)
-
-        # handle image files
+        # handle image files 
         image_files = self.request.FILES.getlist('image_files')
         for file in image_files:
             Photo.objects.create(post=self.object, image_file=file)
 
         return response
     
-class UpdateProfileView (UpdateView):
+    ## from A7 examples dor def form_valid:
+    # def form_valid(self, form):
+
+    #     #find the login user
+    #     user = self.request.user 
+    #     print(f'CreatePostView.form_valid(): {user}')
+    #     #attach that user to the form instance (to the POST object)
+    #     form.instance.user = user
+    #     #delegate work to the superclass to do the rest: 
+    #     return super().form_valid(form)
+
+
+class UpdateProfileView(UpdateView):
     ''' A view to update an Post and save it to the database. '''
 
     model = Profile
-    form_class = UpdateProfileForm 
+    form_class = UpdateProfileForm
     template_name = "mini_insta/update_profile_form.html"
+
+    def get_object(self):
+        ''' Get the object to be updated. find the profile associated with the logged-in user'''
+        return Profile.objects.get(user=self.request.user)
+
+    def get_success_url(self):
+        return reverse('profile', kwargs={'pk': self.object.pk})
 
 class UpdatePostView(UpdateView):
     '''A view to update an existing Post'''
@@ -96,7 +121,7 @@ class UpdatePostView(UpdateView):
     template_name = "mini_insta/update_post_form.html"
 
     def get_success_url(self):
-        return reverse("post", kwargs={"pk": self.object.pk})
+        return reverse('post')
 
 class DeletePostView (DeleteView):
     '''A view class to delet a post in a Profile'''
@@ -117,7 +142,7 @@ class DeletePostView (DeleteView):
         """Return URL to redirect to after a successful delete"""
         post = self.get_object()
         profile = post.profile
-        return reverse("profile", kwargs={"pk": profile.pk})
+        return reverse('profile')
     
 # Assignment 6 
     
@@ -151,7 +176,7 @@ class ShowFollowingDetailView(DetailView):
         context['following_profiles'] = profile.get_following()
         context['num_following'] = profile.get_num_following()
         return context
-    
+        
 class PostFeedListView(ListView):
     '''display all of the Posts in the feed'''
 
@@ -159,61 +184,50 @@ class PostFeedListView(ListView):
     template_name = "mini_insta/show_feed.html"
     context_object_name = "posts"
 
-    def get_queryset(self):
-        '''return the posts made by the profiles this user follows.'''
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
-        return profile.get_post_feed()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
         context['profile'] = profile
         return context
     
-
-from django.views.generic import ListView
-from django.shortcuts import render
-from .models import Profile, Post
-
-
+    
 class SearchView(ListView):
     '''search across Profiles and Posts.'''
     template_name = 'mini_insta/search_results.html'
-    context_object_name = 'posts'  
+    context_object_name = 'posts'
 
     def dispatch(self, request, *args, **kwargs):
         query = self.request.GET.get('q', None)
         if not query:
-            pk = self.kwargs['pk']
-            profile = Profile.objects.get(pk=pk)
+            profile = Profile.objects.get(user=self.request.user)
             return render(request, 'mini_insta/search.html', {'profile': profile})
         return super().dispatch(request, *args, **kwargs)
-
+    
     def get_queryset(self):
-        ''' return Posts that matches the query in their caption text'''
-        query = self.request.GET.get('q', '')
-        if query:
-            return Post.objects.filter(caption__icontains=query)
-        return Post.objects.none()
+        '''return the posts made by the profiles this user follows.'''
+        profile = Profile.objects.get(user=self.request.user)
+        return profile.get_post_feed()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get('q', '')
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = Profile.objects.get(user=self.request.user)
         context['profile'] = profile
         context['query'] = query
 
-        if query:
-            username_matches = Profile.objects.filter(username__icontains=query)
-            display_matches = Profile.objects.filter(display_name__icontains=query)
-            bio_matches = Profile.objects.filter(bio_text__icontains=query)
-            context['profiles'] = (username_matches | display_matches | bio_matches).distinct()
-        else:
-            context['profiles'] = Profile.objects.none()
-
         return context
+    
+class UserRegistrationView(CreateView):
+    '''show/process form for account registration form to create a new User'''
+
+    template_name = 'mini_insta/register.html'
+    form_class = UserCreationForm
+    model = User
+
+    def get_success_url(self):
+        '''url to redirect to after creating a new user'''
+        return reverse('login')
 
 
 

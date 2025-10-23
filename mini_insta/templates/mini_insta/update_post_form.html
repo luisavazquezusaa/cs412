@@ -28,7 +28,7 @@
             <button type="submit" name="update_post">
                 <img src="{% static 'images/update_icon.png' %}" alt="Update" width="100">
             </button>
-            <a href="{% url 'post' form.instance.pk %}">
+            <a href="{% url 'post' form.instance %}">
                 <img src="{% static 'images/cancel_icon.png' %}" alt="Cancel" width="100">  
             </a>
         </td>
