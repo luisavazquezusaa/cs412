@@ -29,20 +29,23 @@
         <!-- urls for logged in users only -->
         {% if request.user.is_authenticated %}
 
-            <!-- For each profile-->
-            {% if profile and request.user == profile.user %}
-                <li><a href="{% url 'profile' profile.pk %}">My Profile</a></li>
+            <li><a href="{% url 'profile' request.user.profile_set.first.pk %}">My Profile</a></li>
 
-                <li><a href="{% url 'update_profile' %}">Update Profile</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="link-button">Logout</button>
+                </form>
+            </li>
 
-                <li><a href="{% url 'create_post' %}">Create Post</a></li>
+            <li><a href="{% url 'update_profile' %}">Update Profile</a></li>
 
-                <li><a href="{% url 'show_feed' %}">My Feed</a></li>
+            <li><a href="{% url 'create_post' %}">Create Post</a></li>
 
-                <li><a href="{% url 'search' %}">Search</a></li>
-            {% endif %}
+            <li><a href="{% url 'show_feed' %}">My Feed</a></li>
 
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <li><a href="{% url 'search' %}">Search</a></li>
+
         <!-- Urls for users who are not logged in-->        
         {% else %}
             <li><a href="{% url 'login' %}">Login</a></li>

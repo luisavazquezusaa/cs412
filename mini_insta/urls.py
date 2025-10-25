@@ -16,7 +16,7 @@ urlpatterns = [
     path('profile/<int:pk>', ProfileDetailView.as_view(), name='profile'),
     path('post/<int:pk>', PostDetailView.as_view(), name='post'),
     path('profile/create_post', CreatePostView.as_view(), name="create_post"),
-    path('profile/update', UpdateProfileView.as_view(), name='update_profile'),
+    path('profile/update/', UpdateProfileView.as_view(), name='update_profile'),
     path('post/<int:pk>/delete', DeletePostView.as_view(), name='delete_post'),
     path('post/<int:pk>/update', UpdatePostView.as_view(), name='update_post'),
     path('profile/<int:pk>/followers', ShowFollowersDetailView.as_view(), name='show_followers'),
@@ -26,7 +26,8 @@ urlpatterns = [
 
     # Authorization-related URLs (A7): 
     path('login/', auth_views.LoginView.as_view(template_name='mini_insta/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='show_all_profiles'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='logout_confirmation'), name='logout'),
+    path('logged_out/', LogoutConfirmationView.as_view(), name='logout_confirmation'),
     path('register/', UserRegistrationView.as_view(), name='register')
 
 

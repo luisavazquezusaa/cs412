@@ -6,7 +6,7 @@
 from django.http.request import HttpRequest as HttpRequest
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 # from .models import Article --> from example
 from .models import Profile, Post, Photo
 import random
@@ -15,8 +15,6 @@ from django.contrib.auth.forms import UserCreationForm  # for new Users
 from django.contrib.auth.models import User  #Django user model 
 from .forms import *      #CreateArticleForm, CreateCommentForm    from example Assignment 4
 from django.urls import reverse
-
-
 
 
 class ProfileListView(ListView): 
@@ -57,7 +55,9 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     form_class = CreatePostForm
     template_name = "mini_insta/create_post_form.html"
 
-    # ... get_login_url is fine ...
+    def get_login_url(self):
+        '''Return the URL for the login page.'''
+        return reverse('login')
 
     def get_success_url(self):
         '''Provide a URL to redirect to after creating a new Post'''
@@ -100,28 +100,36 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     #     return super().form_valid(form)
 
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     ''' A view to update an Post and save it to the database. '''
 
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_insta/update_profile_form.html"
 
-    def get_object(self):
+    def get_login_url(self):
+        '''Return the URL for the login page.'''
+        return reverse('login')
+
+    def get_object(self, queryset=None):
         ''' Get the object to be updated. find the profile associated with the logged-in user'''
         return Profile.objects.get(user=self.request.user)
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.object.pk})
 
-class UpdatePostView(UpdateView):
+class UpdatePostView(LoginRequiredMixin, UpdateView):
     '''A view to update an existing Post'''
     model = Post
     form_class = CreatePostForm
     template_name = "mini_insta/update_post_form.html"
 
+    def get_login_url(self):
+        '''Return the URL for the login page.'''
+        return reverse('login')
+
     def get_success_url(self):
-        return reverse('post')
+        return reverse("post", kwargs={"pk": self.object.pk})
 
 class DeletePostView (DeleteView):
     '''A view class to delet a post in a Profile'''
@@ -142,7 +150,7 @@ class DeletePostView (DeleteView):
         """Return URL to redirect to after a successful delete"""
         post = self.get_object()
         profile = post.profile
-        return reverse('profile')
+        return reverse("profile", kwargs={"pk": profile.pk})
     
 # Assignment 6 
     
@@ -177,13 +185,17 @@ class ShowFollowingDetailView(DetailView):
         context['num_following'] = profile.get_num_following()
         return context
         
-class PostFeedListView(ListView):
-    '''display all of the Posts in the feed'''
 
+class PostFeedListView(LoginRequiredMixin, ListView):
+    '''display all of the Posts in the feed'''
     model = Post
     template_name = "mini_insta/show_feed.html"
     context_object_name = "posts"
 
+    def get_queryset(self):
+        '''Return the posts made by the profiles this user follows.'''
+        profile = Profile.objects.get(user=self.request.user)
+        return profile.get_post_feed()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -191,8 +203,8 @@ class PostFeedListView(ListView):
         context['profile'] = profile
         return context
     
-    
-class SearchView(ListView):
+
+class SearchView(LoginRequiredMixin, ListView):
     '''search across Profiles and Posts.'''
     template_name = 'mini_insta/search_results.html'
     context_object_name = 'posts'
@@ -203,11 +215,13 @@ class SearchView(ListView):
             profile = Profile.objects.get(user=self.request.user)
             return render(request, 'mini_insta/search.html', {'profile': profile})
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get_queryset(self):
-        '''return the posts made by the profiles this user follows.'''
-        profile = Profile.objects.get(user=self.request.user)
-        return profile.get_post_feed()
+        '''Return Posts that match the query in their caption text.'''
+        query = self.request.GET.get('q', '')
+        if query:
+            return Post.objects.filter(caption__icontains=query)
+        return Post.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -215,6 +229,14 @@ class SearchView(ListView):
         profile = Profile.objects.get(user=self.request.user)
         context['profile'] = profile
         context['query'] = query
+
+        if query:
+            username_matches = Profile.objects.filter(username__icontains=query)
+            display_matches = Profile.objects.filter(display_name__icontains=query)
+            bio_matches = Profile.objects.filter(bio_text__icontains=query)
+            context['profiles'] = (username_matches | display_matches | bio_matches).distinct()
+        else:
+            context['profiles'] = Profile.objects.none()
 
         return context
     
@@ -229,7 +251,9 @@ class UserRegistrationView(CreateView):
         '''url to redirect to after creating a new user'''
         return reverse('login')
 
-
+class LogoutConfirmationView(TemplateView):
+    '''display the logout confirmation page'''
+    template_name = "mini_insta/logged_out.html"
 
 
 
