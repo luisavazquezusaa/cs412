@@ -69,6 +69,13 @@ class Profile(models.Model):
         feed_posts = Post.objects.filter(profile__in=followed_profiles).order_by('-timestamp')
 
         return feed_posts
+    
+    def is_followed_by(self, user):
+        ''' if profile is followed by the a user'''
+        follower_profile = Profile.objects.filter(user=user).first()
+        if not follower_profile:
+            return False
+        return Follow.objects.filter(profile=self, follower_profile=follower_profile).exists()
 
     
 class Post(models.Model): 
@@ -104,6 +111,13 @@ class Post(models.Model):
         '''return the number of likes for this Post.'''
         from .models import Like
         return Like.objects.filter(post=self).count()
+    
+    def is_liked_by(self, user):
+        '''if post is liked by a certain user'''
+        liker_profile = Profile.objects.filter(user=user).first()
+        if not liker_profile:
+            return False
+        return Like.objects.filter(post=self, profile=liker_profile).exists()
     
 
 class Photo(models.Model): 

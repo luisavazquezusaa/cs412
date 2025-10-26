@@ -5,8 +5,8 @@
 
 from django.http.request import HttpRequest as HttpRequest
 from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView, View
 # from .models import Article --> from example
 from .models import Profile, Post, Photo
 import random
@@ -41,6 +41,18 @@ class ProfileDetailView(DetailView):
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        user = self.request.user
+
+        if user.is_authenticated:
+            context["is_followed"] = profile.is_followed_by(user)
+        else:
+            context["is_followed"] = False
+
+        return context
+
 
 class PostDetailView(DetailView):
     '''Display a single post'''
@@ -48,6 +60,18 @@ class PostDetailView(DetailView):
     model = Post 
     template_name = "mini_insta/show_post.html"
     context_object_name = "post" #Note singular variable name
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        user = self.request.user
+
+        if user.is_authenticated:
+            context["is_liked"] = post.is_liked_by(user)
+        else:
+            context["is_liked"] = False
+
+        return context
 
 
 class CreatePostView(LoginRequiredMixin, CreateView):
@@ -281,6 +305,41 @@ class LogoutConfirmationView(TemplateView):
     '''display the logout confirmation page'''
     template_name = "mini_insta/logged_out.html"
 
+class AddLikeView(LoginRequiredMixin, View):
+    """add a like to a post."""
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        liker_profile = request.user.profile_set.first()
+        Like.objects.get_or_create(post=post, profile=liker_profile)
+
+        return redirect('post', pk=post.pk)
+
+class RemoveLikeView(LoginRequiredMixin, View):
+    """remove a like from a Post"""
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        liker_profile = request.user.profile_set.first()
+        Like.objects.filter(post=post, profile=liker_profile).delete()
+
+        return redirect('post', pk=post.pk)
+
+class FollowProfileView(LoginRequiredMixin, View):
+    """follow a Profile"""
+    def post(self, request, pk):
+        profile_to_follow = Profile.objects.get(pk=pk)
+        follower_profile = request.user.profile_set.first()
+        Follow.objects.get_or_create(profile=profile_to_follow, follower_profile=follower_profile)
+        
+        return redirect('profile', pk=profile_to_follow.pk)
+
+class UnfollowProfileView(LoginRequiredMixin, View):
+    """unfollow a Profile"""
+    def post(self, request, pk):
+        profile_to_unfollow = Profile.objects.get(pk=pk)
+        follower_profile = request.user.profile_set.first()
+        Follow.objects.filter(profile=profile_to_unfollow, follower_profile=follower_profile).delete()
+        
+        return redirect('profile', pk=profile_to_unfollow.pk)
 
 
 

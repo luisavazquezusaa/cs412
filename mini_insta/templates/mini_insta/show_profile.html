@@ -1,7 +1,7 @@
 <!-- mini_insta /show_profiles.html 
 # File: show_profiles.html 
 # Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
-# Description: indiviual profile for the app mini_insta
+# Description: individual profile for the app mini_insta
 -->
 
 {% extends 'mini_insta/base.html'%}
@@ -9,18 +9,45 @@
 
 {% block content %}
 
-
 <main class="profile-page">
     <!-- created a new class so that my user interface looked cute -->
     <section class="profile-header"> 
         <div> 
-            <h1>{{profile.username}}</h1>
-            <h3>by {{profile.display_name}}</h3>
-            <h3> {{profile.bio_text}}  </h3>
+            <h1>{{ profile.username }}</h1>
+            <h3>by {{ profile.display_name }}</h3>
+            <h3>{{ profile.bio_text }}</h3>
 
-            <p> Joined {{profile.join_date}} </p>
+            <p>Joined {{ profile.join_date }}</p>
 
-            <!-- display the followers/followed-->
+            <div>
+                <!-- Only show buttons if the user is logged in -->
+                {% if request.user.is_authenticated %}
+                    <!-- If this is the logged-in user's own profile -->
+                    {% if request.user == profile.user %}
+                        <a href="{% url 'update_profile' %}">
+                            <button type="button">Update Profile</button>
+                        </a>
+
+                    <!-- Otherwise, show follow/unfollow buttons -->
+                    {% else %}
+                        {% if is_followed %}
+                            <!-- If the logged-in user is already following this profile -->
+                            <form action="{% url 'unfollow_profile' profile.pk %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit">Unfollow</button>
+                            </form>
+                        {% else %}
+                            <!-- If the logged-in user is not following this profile -->
+                            <form action="{% url 'follow_profile' profile.pk %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit">Follow</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- display the followers/followed -->
             <div class="profile-stats">
                 <a href="{% url 'show_followers' profile.pk %}">
                     <div class="stat-box">
@@ -28,7 +55,7 @@
                         <p>followers</p>
                     </div>
                 </a>
-            
+
                 <a href="{% url 'show_following' profile.pk %}">
                     <div class="stat-box">
                         <h2>{{ profile.get_num_following }}</h2>
@@ -36,35 +63,16 @@
                     </div>
                 </a>
             </div>
-
-
         </div>
 
+        <!-- Display the profile image -->
         <img src="{{ profile.profile_image_url }}" alt="Profile image" class="profile-pic">
 
-        <div>
-            <a href="{% url 'update_profile' %}">
-                <button type="button">Update Profile</button>
-            </a>
-        </div>
-
     </section>
-<!-- From the examples A 4 
-         Display the comments abbout this article 
-        {% for comment in profile.get_all_comments %}
-            <div>
-                <strong>by {{comment.username}} at {{comment.published}}</strong>
-                <p>
-                    {{comment.text}}
-                </p>
-            </div>
-        {% endfor %} -->
 
     <section class="grid-container posts-grid">
-
         <!-- Display the posts about this profile --> 
         {% for post in profile.get_all_posts %}
-
             <h4>{{ post.caption }}</h4>
 
             <article class="post-card">
@@ -88,10 +96,8 @@
                     <p><em>Posted at {{ post.timestamp }}</em></p>
                 {% endif %}
             </article>
-
         {% endfor %}
-
     </section>
-</main>  
+</main>
 
-{% endblock %} 
+{% endblock %}
