@@ -15,7 +15,8 @@ from django.contrib.auth.forms import UserCreationForm  # for new Users
 from django.contrib.auth.models import User  #Django user model 
 from .forms import *      #CreateArticleForm, CreateCommentForm    from example Assignment 4
 from django.urls import reverse
-
+from django.http import HttpResponseRedirect
+from django.contrib.auth import login
 
 class ProfileListView(ListView): 
     ''' Define a view class to display all users'''
@@ -250,6 +251,31 @@ class UserRegistrationView(CreateView):
     def get_success_url(self):
         '''url to redirect to after creating a new user'''
         return reverse('login')
+
+
+class CreateProfileView(CreateView):
+    '''handles new user registration'''
+
+    form_class = CreateProfileForm
+    model = Profile
+    template_name = 'mini_insta/create_profile_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+
+    def form_valid(self, form):
+        user_form = UserCreationForm(self.request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+            login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+            form.instance.user = user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('profile', kwargs={'pk': self.object.pk})
 
 class LogoutConfirmationView(TemplateView):
     '''display the logout confirmation page'''
