@@ -86,7 +86,7 @@ class VoterDetailView(DetailView):
     def get_context_data(self, **kwargs):
         '''Provide context variables for use in the template'''
         context =  super().get_context_data(**kwargs)
-        r = context['']
+        return context
 
 class VoterGraphsView(ListView):
     '''display graphs of voter data'''
