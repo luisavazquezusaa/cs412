@@ -341,6 +341,21 @@ class UnfollowProfileView(LoginRequiredMixin, View):
         
         return redirect('profile', pk=profile_to_unfollow.pk)
 
+#####################################################################
+
+#Rest API:
+
+# from rest_framework import generics
+# from .serializers import * 
+
+# class ArticleListAPIView(generics.ListCreateAPIView): 
+#     '''
+#     An API view to return a listing of Articles 
+#     and to create an Article
+#     '''
+
+#     queryset = Article.objects.all()
+#     serializer_class = ArticlesSerializers
 
 
   

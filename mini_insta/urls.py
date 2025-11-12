@@ -35,6 +35,10 @@ urlpatterns = [
     path('post/<int:pk>/like/', AddLikeView.as_view(), name='like_post'),
     path('post/<int:pk>/delete_like/', RemoveLikeView.as_view(), name='unlike_post'),
 
+    #############################
+    #API Views: 
+    # path(r'api/articles/', ArticlesSerializers.as_view(), name='article_list_api'),
+
 
     #examples assigment 4: 
     # path('profile/create', CreateArticleView.as_view(), name="create_article"),
