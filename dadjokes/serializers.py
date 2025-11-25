@@ -1,5 +1,6 @@
 # dadjokes/serializers.py
-# Serializers convert our django data models to a 
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 11/11/2025
+# Description: Serializers convert our django data models to a 
 # text-representaiton suitable to transmit over HTTP
 
 from rest_framework import serializers

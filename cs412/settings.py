@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     "marathon_analytics", #example 8 
     "gallery",
     "rest_framework", 
-    "dadjokes"
+    "dadjokes", 
+    "project"
 ]
 
 MIDDLEWARE = [

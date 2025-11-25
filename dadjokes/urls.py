@@ -1,6 +1,6 @@
 # File: urls.py 
-# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 09/25/2025
-# Description: Urls for the app mini_insta
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 11/11/2025
+# Description: Urls for the app dadjokes
 
 from django.urls import path
 from .views import * 

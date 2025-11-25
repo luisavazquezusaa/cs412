@@ -1,5 +1,5 @@
 # File: dadjokes/views.py
-# Author: Luisa Vazquez Usabiaga (lvu@bu.edu)
+# Author: Luisa Vazquez Usabiaga (lvu@bu.edu), 11/11/2025
 # Description: Views for dadjokes app.
 
 from django.shortcuts import render, get_object_or_404
